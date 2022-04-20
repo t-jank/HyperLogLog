@@ -18,9 +18,9 @@ def HyperLogLog(multizbior,m,h): # m - liczba podstrumieni, potega dwojki
     for i in range(0,m):
         M.append(0)
     for e in range(0,len(multizbior)):
-        h = h(e)
+        x = h(multizbior[e])
         j = 1########+
-        w = 0
+        w = 155
         M[j] = max(M[j],g(w))
     for i in range(0,m):
         Z += 2**(-M[j])
@@ -37,9 +37,10 @@ def HyperLogLog(multizbior,m,h): # m - liczba podstrumieni, potega dwojki
 
     return nzd
 
-def g(x): # zwraca pozycje pierwszej jedynki od lewej strony
+def g(y): # zwraca pozycje pierwszej jedynki od lewej strony
     g=0
-    while x[g]!=49:
+    yy="{0:032b}".format(y)
+    while yy[g]!='1':
         g+=1
     return g+1
 
@@ -51,4 +52,4 @@ def hash_sha256_hll(x):
     x= str(int(x)).encode('utf-8')
     return hashlib.sha256(x).hexdigest()
 '''
-#HyperLogLog([1,2],32,md5)
+HyperLogLog([1,2],32,md5)
