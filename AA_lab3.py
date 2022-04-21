@@ -52,6 +52,8 @@ def ro(y): # zwraca pozycje pierwszej jedynki od lewej strony
     yy="{0:032b}".format(y)
     while yy[g]!='1':
         g+=1
+        if g==32:
+            break
     return g+1
 
 def md5(f):
@@ -63,6 +65,6 @@ def hash_sha256_hll(x):
     return hashlib.sha256(x).hexdigest()
 '''
 mltzbr=[]
-for i in range(1,1000):
+for i in range(0,1000):
     mltzbr.append(i)
 print(HyperLogLog(mltzbr,64,md5))
