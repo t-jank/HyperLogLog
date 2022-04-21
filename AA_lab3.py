@@ -21,13 +21,12 @@ def HyperLogLog(multizbior,m,h): # m - liczba podstrumieni, potega dwojki
         x = h(multizbior[e])
         x_in_4_bytes = str(10000*x)[:4] # trunc_x_to_4_bytes
         x_bits = "{0:032b}".format(int(float(x_in_4_bytes))) # trunc_x_in_32_bites
-        j = x_bits[0]
-        for p in range(1,b):
+        j = x_bits[32-b]
+        for p in range(32-b+1,32):
             j = j + x_bits[p]
-        j = int(j) + 1  # bin(int(j)+1)
-        print('j:',j) ########## !!!!!!!!!!! ######### tutaj blad ewidentnie, j powinno byc od 0 do 31 ########
+        j = int(j,2)  # bin(int(j)+1)
         w = x_bits[b]
-        for p in range(b,32):
+        for p in range(0,32-b):
             w = w + x_bits[p]
         M[j] = max(M[j],ro(int(w)))
     for i in range(0,m):
@@ -66,6 +65,6 @@ def hash_sha256_hll(x):
     return hashlib.sha256(x).hexdigest()
 '''
 mltzbr=[]
-for i in range(0,50):
+for i in range(50,1000):
     mltzbr.append(i)
-print(HyperLogLog(mltzbr,64,md5))
+print(HyperLogLog(mltzbr,32,md5))
