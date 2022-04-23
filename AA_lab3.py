@@ -3,7 +3,7 @@ import hashlib
 import matplotlib.pyplot as plt
 import scipy.integrate
 import numpy
-
+import random
 
 ######### zadanie 8 ###########
 
@@ -61,12 +61,64 @@ def ro(y): # zwraca pozycje pierwszej jedynki od lewej strony
 def md5(f):
     return int(hashlib.md5(str(f).encode()).hexdigest(),16)/2**128
 
+def randsid(x):
+    random.seed(x)
+    return random.random()
+
+def sha256(x):
+    return int(hashlib.sha256(str(x).encode()).hexdigest(),16)/2**256
+
+def randsid8192(x):
+    random.seed(x)
+    return random.randrange(1000000)%8192/8192
+
+def MinCount(k,h,multizbior):
+    M=[]
+    for i in range(0,k):
+        M.append(1)
+    for x in range(0,len(multizbior)):
+        if h(multizbior[x]) < M[k-1] and h(multizbior[x]) not in M:
+            M[k-1]=h(multizbior[x])
+            M.sort()
+    if M[k-1]==1:
+        i=k
+        while M[i-1]==1 and i>0:
+            i-=1
+        nzd = i
+        return nzd
+    else:
+        nzd = (k-1)/M[k-1]
+        return nzd
+
 '''
 def hash_sha256_hll(x):
     x= str(int(x)).encode('utf-8')
     return hashlib.sha256(x).hexdigest()
 '''
+
+multizbior=[1]
+q=1
+zakres = 1000
+m = 32
+k = int(m*5/32)
+
+'''
+while len(multizbior)<zakres:
+    for j in range(0,len(multizbior)):
+        multizbior[j] = multizbior[j] + q
+    multizbior.append(multizbior[len(multizbior)-1]+1)
+    q+=1
+    wynik = MinCount(k,randsid,multizbior)/len(multizbior)
+    plt.scatter(len(multizbior),wynik, color='k', marker='.')
+plt.xlim([0,zakres])
+plt.xlabel('n')
+plt.ylabel('nzd/n')
+plt.show()
+'''
+
 mltzbr=[]
 for i in range(50,10050):
     mltzbr.append(i)
-print(HyperLogLog(mltzbr,32,md5))
+print(HyperLogLog(mltzbr,m,md5))
+
+
