@@ -34,6 +34,7 @@ def HyperLogLog(multizbior,m,h): # m - liczba podstrumieni, potega dwojki
         Z += 2**(-M[j])
     nzd = alfam*m**2*Z
     print('nzd:',nzd)
+    print('M:',M)
     
     #korekty:
     if nzd <= 5*m/2:
@@ -117,7 +118,7 @@ plt.show()
 '''
 
 mltzbr=[]
-for i in range(50,10050):
+for i in range(50,1050):
     mltzbr.append(i)
 print(HyperLogLog(mltzbr,m,md5))
 
