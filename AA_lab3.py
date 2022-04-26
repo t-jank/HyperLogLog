@@ -19,14 +19,16 @@ def HyperLogLog(multizbior,m,h): # m - liczba podstrumieni, potega dwojki
         M.append(0)
     for e in range(0,len(multizbior)):
         x = h(multizbior[e])
-        x_in_4_bytes = str(10000*x)[:4] # trunc_x_to_4_bytes
+        x_in_4_bytes = str(100000000*x)[:50] # trunc_x_to_4_bytes
         x_bits = "{0:032b}".format(int(float(x_in_4_bytes))) # trunc_x_in_32_bites
-        j = x_bits[31]
-        for p in range(30,32-b,-1):
+        j = x_bits[31] #0 / 32-b
+        for p in range(30,30-b+1,-1): #0,b / 32-b+1,32
             j = j + x_bits[p]
+    #    print('j bin:',j)
         j = int(j,2)  # bin(int(j)+1)
-        w = x_bits[32-b]
-        for p in range(31-b,-1,-1):
+    #    print('j int:',j)
+        w = x_bits[0] #b / 0 = b-1
+        for p in range(32-b-1,-1,-1): #b+1,32 / 1,32-b = b-2,-1,-1
             w = w + x_bits[p]
         w = int(w,2)
         M[j] = max(M[j],ro(w))
@@ -121,5 +123,4 @@ mltzbr=[]
 for i in range(50,1050):
     mltzbr.append(i)
 print(HyperLogLog(mltzbr,m,md5))
-
 
